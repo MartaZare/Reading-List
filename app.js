@@ -1,20 +1,13 @@
 let list = [];
 const shelf = document.getElementById("shelf");
+const addBookBtn = document.getElementById("add");
+const fauthor = document.getElementById("fauthor");
+const ftitle = document.getElementById("ftitle");
+const fpages = document.getElementById("fpages");
 
 function Book(title, author, pages) {
   (this.title = title), (this.author = author), (this.pages = pages);
 }
-
-const book1 = new Book("Revenge on cupcakes", "A. L. Smith", "236");
-const book2 = new Book("Lust", " A. Don Carlos", "147");
-const book3 = new Book("Harry Potter", "J. K. Rowling", "598");
-
-function addToList(book1, book2, book3) {
-  list.push(book1, book2, book3);
-  displayList(list.length);
-}
-
-addToList(book1, book2, book3);
 
 function displayList(size) {
   for (let i = 0; i < size; i++) {
@@ -37,4 +30,35 @@ function displayList(size) {
     pages.innerHTML += list[i].pages;
     oneBook.appendChild(pages);
   }
+}
+
+function displayForm(e) {
+  if (e == "on") {
+    document.getElementById("bookForm").style.display = "block";
+  } else {
+    document.getElementById("bookForm").style.display = "none";
+  }
+}
+
+function submitForm() {
+  document.getElementById("form1");
+  console.log("form subbmited)");
+  addBook();
+  reloadForm();
+}
+
+function addBook() {
+  list.push(
+    new Book(
+      document.getElementById("ftitle").value,
+      document.getElementById("fauthor").value,
+      document.getElementById("fpages").value
+    )
+  );
+}
+
+function reloadForm() {
+  ftitle.value = "";
+  fauthor.value = "";
+  fpages.value = "";
 }

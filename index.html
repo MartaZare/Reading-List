@@ -11,6 +11,22 @@
     <header></header>
     <main>
       <div id="shelf"></div>
+
+      <!-- MANUFACTURING -->
+      <button onclick="displayForm('on')" id="addBookBtn">Add Book</button>
+      <button onclick="displayForm('off')" id="addBookBtn">Excit</button>
+
+      <form name="form1" id="form1">
+        Title:
+        <input type="text" name="ftitle" id="ftitle" /><br />
+        Author:
+        <input type="text" name="fauthor" id="fauthor" /><br />
+        Pages:
+        <input type="number" name="fpages" id="fpages" /><br />
+      </form>
+      <button onclick="submitForm()" id="submitBtn">Submit</button>
+
+      <!-- MANUFACTURING -->
     </main>
     <footer></footer>
     <script src="app.js"></script>
