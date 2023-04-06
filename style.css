@@ -78,11 +78,11 @@ main {
   width: 100%;
   padding: 30px;
   margin: 30px;
-  background-color: var(--accent-color);
+  border: solid var(--accent-color);
   border-radius: 40px;
   font-family: "Montserrat", sans-serif;
   font-size: 20px;
-  color: var(--main-color);
+  color: var(--accent-color);
 }
 
 .bookCard button {
@@ -109,16 +109,21 @@ main {
 }
 
 .bookCard .remove {
-  background-color: var(--secondary-color);
+  background-color: var(--accent-color);
   color: white;
 }
 
 .fullForm {
+  position: absolute;
+  top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
   display: grid;
   grid-template-columns: 15fr 1fr;
   grid-template-rows: 1fr 4fr 1fr;
   padding: 30px;
-  margin: 30px;
   width: 400px;
   background-color: var(--accent-color);
   border-radius: 40px;
