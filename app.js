@@ -4,11 +4,10 @@ const shelf = document.getElementById("shelf");
 const registerBook = document.getElementById("registerBook");
 const fauthor = document.getElementById("fauthor");
 const ftitle = document.getElementById("ftitle");
-const fpages = document.getElementById("fpages");
 const addBookBtn = document.getElementById("addBookBtn");
 
-function Book(title, author, pages) {
-  (this.title = title), (this.author = author), (this.pages = pages);
+function Book(title, author) {
+  (this.title = title), (this.author = author);
 }
 
 function displayForm(e) {
@@ -34,13 +33,12 @@ function displayShelf() {
 }
 
 function submitForm() {
-  list.push(new Book(ftitle.value, fauthor.value, fpages.value));
+  list.push(new Book(ftitle.value, fauthor.value));
 }
 
 function reloadForm() {
   ftitle.value = "";
   fauthor.value = "";
-  fpages.value = "";
 }
 
 function clearShelf() {
@@ -54,23 +52,26 @@ function loadShelf() {
     oneBook.classList.add(i);
     shelf.appendChild(oneBook);
 
+    const bookNameAuthor = document.createElement("div");
+    bookNameAuthor.classList.add("bookNameAuthor");
+    oneBook.appendChild(bookNameAuthor);
+
+    const bookBtn = document.createElement("div");
+    bookBtn.classList.add("bookBtn");
+    oneBook.appendChild(bookBtn);
+
     const title = document.createElement("div");
     title.classList.add("title");
     title.innerHTML += list[i].title;
-    oneBook.appendChild(title);
+    bookNameAuthor.appendChild(title);
 
     const author = document.createElement("div");
     author.classList.add("author");
     author.innerHTML += list[i].author;
-    oneBook.appendChild(author);
+    bookNameAuthor.appendChild(author);
 
-    const pages = document.createElement("div");
-    pages.classList.add("pages");
-    pages.innerHTML += list[i].pages;
-    oneBook.appendChild(pages);
-
-    readingStatusBtn(oneBook);
-    removeBookBtn(oneBook);
+    readingStatusBtn(bookBtn);
+    removeBookBtn(bookBtn);
   }
 }
 
