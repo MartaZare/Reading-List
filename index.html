@@ -5,27 +5,64 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,900;1,100&display=swap"
+      rel="stylesheet"
+    />
     <title>My Reading List</title>
   </head>
   <body>
-    <header></header>
+    <header>
+      <h1>My Reading List</h1>
+      <img
+        onclick="displayForm('on')"
+        id="addBookBtn"
+        src="add.png"
+        alt="add-book-icon"
+      />
+    </header>
     <main>
+      <div class="quote">
+        <h2>
+          Books Serve to Show a Man That Those Original Thoughts of His Aren't
+          Very New at All.
+        </h2>
+        <h3>- Abraham Lincoln</h3>
+      </div>
+
       <div id="shelf"></div>
 
-      <button onclick="displayForm('on')" id="addBookBtn">Add Book</button>
+      <div id="registerBook" style="display: none">
+        <div class="fullForm">
+          <img
+            onclick="displayForm('off')"
+            src="https://cdn-icons-png.flaticon.com/128/2961/2961937.png"
+            alt="excit-icon"
+          />
+          <h3>Add New Book</h3>
+          <form>
+            <div class="formElem">
+              <p>Title:</p>
+              <input type="text" name="ftitle" id="ftitle" />
+            </div>
+            <div class="formElem">
+              <p>Author:</p>
+              <input type="text" name="fauthor" id="fauthor" />
+            </div>
+            <div class="formElem">
+              <p>Pages:</p>
+              <input type="number" name="fpages" id="fpages" />
+            </div>
+          </form>
 
-      <div id="bookForm" style="display: none">
-        <button onclick="displayForm('off')" id="addBookBtn">Exit</button>
-        <form name="form1" id="form1">
-          Title:
-          <input type="text" name="ftitle" id="ftitle" /><br />
-          Author:
-          <input type="text" name="fauthor" id="fauthor" /><br />
-          Pages:
-          <input type="number" name="fpages" id="fpages" /><br />
-        </form>
-
-        <button onclick="addBook()" id="submitBtn">Submit</button>
+          <button onclick="addBook()" id="submitBtn">Submit</button>
+        </div>
       </div>
     </main>
     <footer></footer>

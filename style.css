@@ -6,10 +6,178 @@
   margin: 0;
 }
 
-#shelf {
-  background-color: rgb(146, 146, 238);
+:root {
+  --main-color: white;
+  --accent-color: #a7d2f6;
+  --secondary-color: rgb(149, 147, 147);
 }
 
-button {
-  background-color: white;
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 100px 250px 0px 250px;
+  max-width: 800px;
+}
+
+header h1 {
+  font-family: "Raleway", sans-serif;
+  font-size: 50px;
+  font-weight: 200;
+  line-height: 100px;
+  align-self: flex-start;
+}
+
+#addBookBtn {
+  width: 60px;
+  filter: invert(79%) sepia(4%) saturate(4033%) hue-rotate(182deg)
+    brightness(105%) contrast(93%);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 250px;
+}
+
+.quote {
+  display: grid;
+  margin: 20px 50px;
+  padding: 30px;
+  border-left: solid var(--accent-color);
+  max-width: 800px;
+}
+
+.quote h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 30px;
+  font-weight: 100;
+  font-style: italic;
+  color: var(--secondary-color);
+  justify-self: center;
+}
+
+.quote h3 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  font-size: 20px;
+  margin: 10px 80px 0px 0px;
+  color: var(--secondary-color);
+  justify-self: right;
+}
+
+#shelf {
+  max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.bookCard {
+  display: flex;
+  width: 100%;
+  padding: 30px;
+  margin: 30px;
+  background-color: var(--accent-color);
+  border-radius: 40px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  color: var(--main-color);
+}
+
+.bookCard button {
+  justify-self: space-between;
+  min-width: 100px;
+  margin: 5px 8px;
+  padding: 10px 20px;
+  background-color: var(--main-color);
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  line-height: 16px;
+  border: 0;
+  border-radius: 30px;
+}
+
+.bookCard button:hover {
+  filter: brightness(0.8);
+}
+
+.bookCard .title {
+  font-size: 28px;
+  word-wrap: break-word;
+  max-inline-size: 300px;
+}
+
+.bookCard .remove {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.fullForm {
+  display: grid;
+  grid-template-columns: 15fr 1fr;
+  grid-template-rows: 1fr 4fr 1fr;
+  padding: 30px;
+  margin: 30px;
+  width: 400px;
+  background-color: var(--accent-color);
+  border-radius: 40px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  color: var(--main-color);
+}
+
+.fullForm img {
+  grid-area: 1 / 2 / 2 / 3;
+  justify-self: right;
+  width: 20px;
+  filter: invert(89%) sepia(88%) saturate(0%) hue-rotate(268deg)
+    brightness(110%) contrast(97%);
+}
+
+.fullForm h3 {
+  grid-area: 1 / 1 / 2 / 2;
+  align-self: center;
+  justify-self: center;
+  font-weight: 600;
+  font-size: 25px;
+  padding-left: 20px;
+}
+
+form {
+  grid-area: 2 / 1 / 3 / 3;
+  justify-self: center;
+  align-self: center;
+}
+
+.formElem {
+  margin: 10px;
+}
+
+input {
+  border-radius: 20px;
+  border: none;
+  padding: 5px;
+  width: 200px;
+  margin-top: 5px;
+}
+
+#submitBtn {
+  grid-area: 3 / 1 / 4 / 3;
+  justify-self: center;
+  width: 100px;
+  margin: 5px 8px;
+  padding: 10px 20px;
+  background-color: var(--secondary-color);
+  filter: brightness(1);
+  font-family: "Montserrat", sans-serif;
+  color: var(--main-color);
+  font-size: 16px;
+  line-height: 16px;
+  border: 0;
+  border-radius: 30px;
+}
+
+#submitBtn:hover {
+  filter: brightness(0.8);
 }

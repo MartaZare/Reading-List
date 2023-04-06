@@ -1,28 +1,28 @@
 let list = [];
+
 const shelf = document.getElementById("shelf");
-const addBookBtn = document.getElementById("add");
+const registerBook = document.getElementById("registerBook");
 const fauthor = document.getElementById("fauthor");
 const ftitle = document.getElementById("ftitle");
 const fpages = document.getElementById("fpages");
+const addBookBtn = document.getElementById("addBookBtn");
 
-function Book(title, author, pages, read) {
-  (this.title = title),
-    (this.author = author),
-    (this.pages = pages),
-    (this.read = read);
+function Book(title, author, pages) {
+  (this.title = title), (this.author = author), (this.pages = pages);
 }
 
 function displayForm(e) {
   if (e == "on") {
-    document.getElementById("bookForm").style.display = "block";
-    document.getElementById("addBookBtn").style.display = "none";
+    registerBook.style.display = "block";
+    addBookBtn.style.display = "none";
   } else {
-    document.getElementById("bookForm").style.display = "none";
-    document.getElementById("addBookBtn").style.display = "block";
+    registerBook.style.display = "none";
+    addBookBtn.style.display = "block";
   }
 }
 
 function addBook() {
+  displayForm("off");
   submitForm();
   reloadForm();
   displayShelf();
@@ -34,13 +34,7 @@ function displayShelf() {
 }
 
 function submitForm() {
-  list.push(
-    new Book(
-      document.getElementById("ftitle").value,
-      document.getElementById("fauthor").value,
-      document.getElementById("fpages").value
-    )
-  );
+  list.push(new Book(ftitle.value, fauthor.value, fpages.value));
 }
 
 function reloadForm() {
@@ -74,8 +68,9 @@ function loadShelf() {
     pages.classList.add("pages");
     pages.innerHTML += list[i].pages;
     oneBook.appendChild(pages);
-    removeBookBtn(oneBook);
+
     readingStatusBtn(oneBook);
+    removeBookBtn(oneBook);
   }
 }
 
@@ -98,12 +93,6 @@ function readingStatusBtn(parentElement) {
   parentElement.appendChild(read);
   read.onclick = () => readingStatusColor(read);
 
-  const reading = document.createElement("button");
-  reading.classList.add("reading");
-  reading.innerHTML = "Reading";
-  parentElement.appendChild(reading);
-  reading.onclick = () => readingStatusColor(reading);
-
   const notread = document.createElement("button");
   notread.classList.add("notread");
   notread.innerHTML = "Not read";
@@ -115,12 +104,12 @@ function readingStatusColor(status) {
   deactivateAllBtn();
   status.classList.add("active");
   const activeButton = document.querySelector(".active");
-  if (activeButton.classList.contains("reading")) {
-    activeButton.style.backgroundColor = "yellow";
-  } else if (activeButton.classList.contains("read")) {
-    activeButton.style.backgroundColor = "green";
+  if (activeButton.classList.contains("read")) {
+    activeButton.style.backgroundColor = "#90ee90";
+    activeButton.style.color = "#ffffff";
   } else if (activeButton.classList.contains("notread")) {
-    activeButton.style.backgroundColor = "blue";
+    activeButton.style.backgroundColor = "#f08080";
+    activeButton.style.color = "#ffffff";
   }
 }
 
@@ -134,4 +123,5 @@ function deactivateAllBtn() {
 
 function setDefaultBtnColor(e) {
   e.style.backgroundColor = "white";
+  e.style.color = "black";
 }
