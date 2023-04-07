@@ -75,12 +75,12 @@ main {
 #shelf {
   max-width: 800px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .bookCard {
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 0.1fr;
   width: 800px;
   margin: 10px;
   padding: 10px;
@@ -112,7 +112,7 @@ main {
 .bookCard .title {
   font-size: 20px;
   word-wrap: break-word;
-  min-inline-size: 300px;
+  max-inline-size: 700px;
   text-align: center;
   color: var(--vivid-accent-color);
 }
@@ -120,7 +120,7 @@ main {
 .bookCard .author {
   font-size: 20px;
   word-wrap: break-word;
-  min-inline-size: 300px;
+  max-inline-size: 700px;
   text-align: center;
 }
 
@@ -133,7 +133,7 @@ main {
 .bookBtn {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 2px;
 }
 
 .bookNameAuthor {
@@ -216,4 +216,124 @@ input {
 
 #submitBtn:hover {
   filter: brightness(0.8);
+}
+
+@media (max-width: 810px) {
+  html {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body {
+    align-self: center;
+    width: 600px;
+  }
+
+  header {
+    grid-template-columns: 2fr 1fr;
+    width: 600px;
+  }
+
+  #addBookBtn {
+    width: 40px;
+    margin-right: 20px;
+  }
+
+  .quote h2 {
+    font-size: 25px;
+  }
+
+  .quote h3 {
+    font-size: 20px;
+  }
+
+  .bookCard {
+    max-width: 600px;
+  }
+
+  .bookCard .title {
+    font-size: 16px;
+    word-wrap: break-word;
+    max-inline-size: 550px;
+  }
+
+  .bookCard .author {
+    font-size: 20px;
+    word-wrap: break-word;
+    max-inline-size: 550px;
+  }
+
+  .bookNameAuthor {
+    width: 550px;
+  }
+}
+
+@media (max-width: 710px) {
+  html {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body {
+    align-self: flex-start;
+    margin-left: 70px;
+    width: 380px;
+  }
+
+  header {
+    grid-template-columns: 2fr 1fr;
+    width: 380px;
+  }
+
+  header h1 {
+    font-size: 32px;
+  }
+
+  #addBookBtn {
+    width: 40px;
+    margin-right: 5px;
+  }
+
+  .quote h2 {
+    font-size: 18px;
+  }
+
+  .quote h3 {
+    font-size: 20px;
+  }
+
+  .bookCard {
+    max-width: 380px;
+    justify-content: center;
+  }
+
+  .bookCard .title {
+    font-size: 16px;
+    word-wrap: break-word;
+    max-inline-size: 300px;
+  }
+
+  .bookCard .author {
+    font-size: 14px;
+    word-wrap: break-word;
+    max-inline-size: 300px;
+  }
+
+  .bookNameAuthor {
+    width: 250px;
+  }
+
+  .fullForm {
+    width: 280px;
+    height: 280px;
+    font-size: 16px;
+  }
+
+  .fullForm img {
+    width: 15px;
+  }
+
+  .fullForm h3 {
+    font-size: 20px;
+  }
 }
