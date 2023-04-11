@@ -56,6 +56,21 @@
               <p>Author:</p>
               <input type="text" name="fauthor" id="fauthor" />
             </div>
+            <div class="readingStatus">
+              <div class="readingStatusElem">
+                <input type="radio" id="read" name="fstatus" value="read" />
+                <label for="read">Read this book</label>
+              </div>
+              <div class="readingStatusElem">
+                <input
+                  type="radio"
+                  id="notread"
+                  name="fstatus"
+                  value="notread"
+                />
+                <label for="notread">Haven't read</label>
+              </div>
+            </div>
           </form>
 
           <button onclick="addBook()" id="submitBtn">Submit</button>

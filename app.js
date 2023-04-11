@@ -1,13 +1,49 @@
 let list = [];
 
+let currentStatus = undefined;
 const shelf = document.getElementById("shelf");
 const registerBook = document.getElementById("registerBook");
 const fauthor = document.getElementById("fauthor");
 const ftitle = document.getElementById("ftitle");
+const read = document.getElementById("read");
+const notread = document.getElementById("notread");
 const addBookBtn = document.getElementById("addBookBtn");
 
-function Book(title, author) {
-  (this.title = title), (this.author = author);
+function addBook() {
+  displayForm("off"); // sitoje vietoje reiktu padaryti true arba false
+  submitForm();
+  reloadForm();
+  displayShelf();
+}
+
+function submitForm() {
+  if (
+    (read.checked === true || notread.checked === true) &&
+    fauthor.value !== "" &&
+    ftitle.value !== ""
+  ) {
+    getReadingStatus();
+    addInformationToList();
+  } else if (fauthor.value === "") {
+    alert("To add book to the library you have to add the author of the book.");
+  } else if (ftitle.value === "") {
+    alert("To add book to the library you have to add the title of the book.");
+  } else if (read.checked === false && notread.checked === false) {
+    alert(
+      "To add book to the library you have to choose: 'Read this book' or 'Haven't read'"
+    );
+  }
+}
+
+function reloadForm() {
+  ftitle.value = "";
+  fauthor.value = "";
+  resetReadingStatus();
+}
+
+function displayShelf() {
+  clearShelf();
+  loadShelf();
 }
 
 function displayForm(e) {
@@ -20,25 +56,25 @@ function displayForm(e) {
   }
 }
 
-function addBook() {
-  displayForm("off");
-  submitForm();
-  reloadForm();
-  displayShelf();
+function Book(title, author, status) {
+  (this.title = title), (this.author = author), (this.status = status);
 }
 
-function displayShelf() {
-  clearShelf();
-  loadShelf();
+function getReadingStatus() {
+  if (read.checked) {
+    currentStatus = read.value;
+  } else if (notread.checked) {
+    currentStatus = notread.value;
+  }
 }
 
-function submitForm() {
-  list.push(new Book(ftitle.value, fauthor.value));
+function addInformationToList() {
+  list.push(new Book(ftitle.value, fauthor.value, currentStatus));
 }
 
-function reloadForm() {
-  ftitle.value = "";
-  fauthor.value = "";
+function resetReadingStatus() {
+  read.checked = false;
+  notread.checked = false;
 }
 
 function clearShelf() {
@@ -52,28 +88,93 @@ function loadShelf() {
     oneBook.classList.add(i);
     shelf.appendChild(oneBook);
 
-    const bookNameAuthor = document.createElement("div");
-    bookNameAuthor.classList.add("bookNameAuthor");
-    oneBook.appendChild(bookNameAuthor);
+    const bookCardTitleAuthor = document.createElement("div");
+    bookCardTitleAuthor.classList.add("bookCardTitleAuthor");
+    oneBook.appendChild(bookCardTitleAuthor);
 
-    const bookBtn = document.createElement("div");
-    bookBtn.classList.add("bookBtn");
-    bookBtn.classList.add(i);
-    oneBook.appendChild(bookBtn);
+    const bookCardBtns = document.createElement("div");
+    bookCardBtns.classList.add("bookCardBtns");
+    bookCardBtns.classList.add(i);
+    oneBook.appendChild(bookCardBtns);
 
     const title = document.createElement("div");
     title.classList.add("title");
     title.innerHTML += list[i].title;
-    bookNameAuthor.appendChild(title);
+    bookCardTitleAuthor.appendChild(title);
 
     const author = document.createElement("div");
     author.classList.add("author");
     author.innerHTML += list[i].author;
-    bookNameAuthor.appendChild(author);
+    bookCardTitleAuthor.appendChild(author);
 
-    readingStatusBtn(bookBtn);
-    removeBookBtn(bookBtn);
+    readingStatusBtn(bookCardBtns, list[i].status);
+    removeBookBtn(bookCardBtns);
+    console.log("status on laodshelf: " + list[i].status);
   }
+}
+
+function readingStatusBtn(parentElement, status) {
+  const readBtn = document.createElement("button");
+  readBtn.classList.add("readBtn");
+  readBtn.innerHTML = "Read";
+
+  const notreadBtn = document.createElement("button");
+  notreadBtn.classList.add("notreadBtn");
+  notreadBtn.innerHTML = "Not read";
+
+  if (status === "read") {
+    readBtn.classList.add("active");
+    parentElement.classList.add("active");
+  } else if (status === "notread") {
+    notreadBtn.classList.add("active");
+    parentElement.classList.add("active");
+  }
+
+  parentElement.appendChild(readBtn);
+  parentElement.appendChild(notreadBtn);
+
+  readingStatusColorChoose(parentElement, status);
+
+  readBtn.addEventListener("click", () =>
+    readingStatusColor(readBtn, parentElement, "read", status)
+  );
+  notreadBtn.addEventListener("click", () =>
+    readingStatusColor(notreadBtn, parentElement, "notread", status)
+  );
+
+  console.log("status on reading status btn: " + status);
+}
+
+function readingStatusColor(statusBtn, parentElem, state) {
+  list[parseInt(parentElem.classList[1])].status = state;
+  deactivateAllCardBtn(parentElem);
+  statusBtn.classList.add("active");
+  readingStatusColorChoose(parentElem, state);
+}
+
+function readingStatusColorChoose(parentElement, state) {
+  const activeButton = parentElement.querySelector(".active");
+  if (state === "read") {
+    activeButton.style.backgroundColor = "#90ee90";
+    activeButton.style.color = "#ffffff";
+  } else if (state === "notread") {
+    activeButton.style.backgroundColor = "#f08080";
+    activeButton.style.color = "#ffffff";
+  }
+}
+
+function deactivateAllCardBtn(parentElement) {
+  const activeBtn = parentElement.querySelectorAll(".active");
+  console.log("Tell me parent:" + parentElement);
+  [].forEach.call(activeBtn, function (e) {
+    setDefaultBtnColor(e);
+    e.classList.remove("active");
+  });
+}
+
+function setDefaultBtnColor(e) {
+  e.style.backgroundColor = "white";
+  e.style.color = "black";
 }
 
 function removeBookBtn(parentElement) {
@@ -86,81 +187,3 @@ function removeBookBtn(parentElement) {
     displayShelf();
   });
 }
-
-// added is read
-function readingStatusBtn(parentElement, isRead) {
-  const read = document.createElement("button");
-  read.classList.add("read");
-  read.innerHTML = "Read";
-  parentElement.appendChild(read);
-  read.onclick = () => readingStatusColor(read, parentElement);
-  read.classList.add("active");
-
-  const notread = document.createElement("button");
-  notread.classList.add("notread");
-  notread.innerHTML = "Not read";
-  parentElement.appendChild(notread);
-  notread.onclick = () => readingStatusColor(notread, parentElement);
-}
-
-function readingStatusColor(status, parentElem) {
-  deactivateAllCardBtn(parentElem);
-
-  status.classList.add("active");
-
-  const activeButton = parentElem.querySelector(".active");
-  if (activeButton.classList.contains("read")) {
-    activeButton.style.backgroundColor = "#90ee90";
-    activeButton.style.color = "#ffffff";
-  } else if (activeButton.classList.contains("notread")) {
-    activeButton.style.backgroundColor = "#f08080";
-    activeButton.style.color = "#ffffff";
-  }
-}
-
-function deactivateAllCardBtn(parentElement) {
-  const activeBtn = parentElement.querySelectorAll(".active");
-  [].forEach.call(activeBtn, function (e) {
-    setDefaultBtnColor(e);
-    e.classList.remove("active");
-  });
-}
-
-function setDefaultBtnColor(e) {
-  e.style.backgroundColor = "white";
-  e.style.color = "black";
-}
-
-// Create an array readingState +
-// Take parentElement (bookBtn) second class call parentClass
-// Take childElement (e.target) class call  (target means the one we activate)
-// Create an object with constructor function ReadingState(parentClass, childClass)
-// Load active buttons:
-//// 1. Find object parent
-//// 2. Find object child
-//// 3. Add "active" class to child
-//// 4. Color active buttons
-
-// function loadActiveStatusBtn() {
-//   for (let i = 0; i < list.length; i++) {
-//     const bookBtn = document.createElement("div");
-//     bookBtn.classList.add("bookBtn");
-//     bookBtn.classList.add(i);
-//     oneBook.appendChild(bookBtn);
-
-//     const title = document.createElement("div");
-//     title.classList.add("title");
-//     title.innerHTML += list[i].title;
-//     bookNameAuthor.appendChild(title);
-
-//     const author = document.createElement("div");
-//     author.classList.add("author");
-//     author.innerHTML += list[i].author;
-//     bookNameAuthor.appendChild(author);
-//   }
-// }
-// DELETE UPON EXECUSION <
-// function ReadingState(parentClass, childClass) {
-//   (this.parentClass = parentClass), (this.childClass = childClass);
-// }
-// DELETE UPON EXECUSION >
