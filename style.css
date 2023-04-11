@@ -6,10 +6,6 @@
   margin: 0;
 }
 
-html {
-  min-width: 727px;
-}
-
 :root {
   --main-color: white;
   --accent-color: #a7d2f6;
@@ -238,7 +234,7 @@ input {
   filter: brightness(0.8);
 }
 
-@media (max-width: 810px) {
+@media (max-width: 910px) {
   html {
     display: flex;
     flex-direction: column;
@@ -288,15 +284,14 @@ input {
   }
 }
 
-@media (max-width: 710px) {
+@media (max-width: 610px) {
   html {
     display: flex;
     flex-direction: column;
   }
 
   body {
-    align-self: flex-start;
-    margin-left: 70px;
+    align-self: center;
     width: 380px;
   }
 
