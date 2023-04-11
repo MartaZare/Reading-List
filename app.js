@@ -10,7 +10,7 @@ const notread = document.getElementById("notread");
 const addBookBtn = document.getElementById("addBookBtn");
 
 function addBook() {
-  displayForm("off"); // sitoje vietoje reiktu padaryti true arba false
+  displayForm(false);
   submitForm();
   reloadForm();
   displayShelf();
@@ -24,13 +24,9 @@ function submitForm() {
   ) {
     getReadingStatus();
     addInformationToList();
-  } else if (fauthor.value === "") {
-    alert("To add book to the library you have to add the author of the book.");
-  } else if (ftitle.value === "") {
-    alert("To add book to the library you have to add the title of the book.");
-  } else if (read.checked === false && notread.checked === false) {
+  } else {
     alert(
-      "To add book to the library you have to choose: 'Read this book' or 'Haven't read'"
+      "To add book to the library add the author, title and choose if you've had read this book :)"
     );
   }
 }
@@ -47,10 +43,10 @@ function displayShelf() {
 }
 
 function displayForm(e) {
-  if (e == "on") {
+  if (e == true) {
     registerBook.style.display = "block";
     addBookBtn.style.display = "none";
-  } else {
+  } else if (e == false) {
     registerBook.style.display = "none";
     addBookBtn.style.display = "block";
   }
@@ -109,63 +105,59 @@ function loadShelf() {
 
     readingStatusBtn(bookCardBtns, list[i].status);
     removeBookBtn(bookCardBtns);
-    console.log("status on laodshelf: " + list[i].status);
   }
 }
 
-function readingStatusBtn(parentElement, status) {
+function readingStatusBtn(btnContainer, readingStatus) {
   const readBtn = document.createElement("button");
   readBtn.classList.add("readBtn");
   readBtn.innerHTML = "Read";
 
-  const notreadBtn = document.createElement("button");
-  notreadBtn.classList.add("notreadBtn");
-  notreadBtn.innerHTML = "Not read";
+  const notReadBtn = document.createElement("button");
+  notReadBtn.classList.add("notreadBtn");
+  notReadBtn.innerHTML = "Not read";
 
-  if (status === "read") {
+  if (readingStatus === "read") {
     readBtn.classList.add("active");
-    parentElement.classList.add("active");
-  } else if (status === "notread") {
-    notreadBtn.classList.add("active");
-    parentElement.classList.add("active");
+    btnContainer.classList.add("active");
+  } else if (readingStatus === "notread") {
+    notReadBtn.classList.add("active");
+    btnContainer.classList.add("active");
   }
 
-  parentElement.appendChild(readBtn);
-  parentElement.appendChild(notreadBtn);
+  btnContainer.appendChild(readBtn);
+  btnContainer.appendChild(notReadBtn);
 
-  readingStatusColorChoose(parentElement, status);
+  colorActiveBtn(btnContainer, readingStatus);
 
   readBtn.addEventListener("click", () =>
-    readingStatusColor(readBtn, parentElement, "read", status)
+    activateBtn(readBtn, btnContainer, "read")
   );
-  notreadBtn.addEventListener("click", () =>
-    readingStatusColor(notreadBtn, parentElement, "notread", status)
+  notReadBtn.addEventListener("click", () =>
+    activateBtn(notReadBtn, btnContainer, "notread")
   );
-
-  console.log("status on reading status btn: " + status);
 }
 
-function readingStatusColor(statusBtn, parentElem, state) {
-  list[parseInt(parentElem.classList[1])].status = state;
-  deactivateAllCardBtn(parentElem);
+function activateBtn(statusBtn, btnContainer, readingStatus) {
+  deactivateAllCardBtn(btnContainer);
+  list[parseInt(btnContainer.classList[1])].status = readingStatus;
   statusBtn.classList.add("active");
-  readingStatusColorChoose(parentElem, state);
+  colorActiveBtn(btnContainer, readingStatus);
 }
 
-function readingStatusColorChoose(parentElement, state) {
-  const activeButton = parentElement.querySelector(".active");
-  if (state === "read") {
+function colorActiveBtn(btnContainer, readingStatus) {
+  const activeButton = btnContainer.querySelector(".active");
+  if (readingStatus === "read") {
     activeButton.style.backgroundColor = "#90ee90";
     activeButton.style.color = "#ffffff";
-  } else if (state === "notread") {
+  } else if (readingStatus === "notread") {
     activeButton.style.backgroundColor = "#f08080";
     activeButton.style.color = "#ffffff";
   }
 }
 
-function deactivateAllCardBtn(parentElement) {
-  const activeBtn = parentElement.querySelectorAll(".active");
-  console.log("Tell me parent:" + parentElement);
+function deactivateAllCardBtn(btnContainer) {
+  const activeBtn = btnContainer.querySelectorAll(".active");
   [].forEach.call(activeBtn, function (e) {
     setDefaultBtnColor(e);
     e.classList.remove("active");
@@ -177,13 +169,13 @@ function setDefaultBtnColor(e) {
   e.style.color = "black";
 }
 
-function removeBookBtn(parentElement) {
+function removeBookBtn(btnContainer) {
   const remove = document.createElement("button");
   remove.classList.add("remove");
   remove.innerHTML = "Remove";
-  parentElement.appendChild(remove);
+  btnContainer.appendChild(remove);
   remove.addEventListener("click", function (e) {
-    list.splice(e.target.parentElement.classList.item(1), 1);
+    list.splice(e.target.btnContainer.classList.item(1), 1);
     displayShelf();
   });
 }
