@@ -50,32 +50,22 @@ function displayShelf() {
 }
 
 function displayForm(isDisplayed) {
-  if (isDisplayed == true) {
+  if (isDisplayed) {
     fullFormDivForDispay.style.display = "block";
     addBookBtn.style.display = "none";
-  } else if (isDisplayed == false) {
+  } else {
     fullFormDivForDispay.style.display = "none";
     addBookBtn.style.display = "block";
   }
 }
 
-function Book(title, author, isReadProperty) {
-  (this.title = title),
-    (this.author = author),
-    (this.isReadProperty = isReadProperty);
-}
-
-function getReadingStatus() {
-  if (isReadInput.checked) {
-    return isReadInput.value;
-  } else if (isNotReadInput.checked) {
-    return isNotReadInput.value;
-  }
+function Book(title, author, isRead) {
+  (this.title = title), (this.author = author), (this.isRead = isRead);
 }
 
 function addInformationToList() {
   list.push(
-    new Book(formTitleInput.value, formAuthorInput.value, getReadingStatus())
+    new Book(formTitleInput.value, formAuthorInput.value, isReadInput.checked)
   );
 }
 
@@ -111,12 +101,12 @@ function loadShelf() {
     author.innerHTML += book.author;
     bookCardTitleAuthor.appendChild(author);
 
-    createReadingStatusBtn(bookCardBtns, book.isReadProperty);
+    createReadingStatusBtn(bookCardBtns, book.isRead);
     createRemoveBookBtn(bookCardBtns);
   }
 }
 
-function createReadingStatusBtn(btnContainer, readingStatus) {
+function createReadingStatusBtn(btnContainer, isRead) {
   const readBtn = document.createElement("button");
   readBtn.classList.add("readBtn");
   readBtn.innerHTML = "Read";
@@ -125,10 +115,10 @@ function createReadingStatusBtn(btnContainer, readingStatus) {
   notReadBtn.classList.add("notreadBtn");
   notReadBtn.innerHTML = "Not read";
 
-  if (readingStatus === "read") {
+  if (isRead) {
     readBtn.classList.add("active");
     btnContainer.classList.add("active");
-  } else if (readingStatus === "notread") {
+  } else if (!isRead) {
     notReadBtn.classList.add("active");
     btnContainer.classList.add("active");
   }
@@ -136,30 +126,30 @@ function createReadingStatusBtn(btnContainer, readingStatus) {
   btnContainer.appendChild(readBtn);
   btnContainer.appendChild(notReadBtn);
 
-  colorActiveBtn(btnContainer, readingStatus);
+  colorActiveBtn(btnContainer, isRead);
 
   readBtn.addEventListener("click", () =>
-    activateBtn(readBtn, btnContainer, "read")
+    activateBtn(readBtn, btnContainer, true)
   );
   notReadBtn.addEventListener("click", () =>
-    activateBtn(notReadBtn, btnContainer, "notread")
+    activateBtn(notReadBtn, btnContainer, false)
   );
 }
 
-function activateBtn(statusBtn, btnContainer, readingStatus) {
+function activateBtn(statusBtn, btnContainer, isRead) {
   deactivateAllCardBtn(btnContainer);
   const bookIndex = parseInt(btnContainer.classList[1]);
-  list[bookIndex].isReadProperty = readingStatus;
+  list[bookIndex].isRead = isRead;
   statusBtn.classList.add("active");
-  colorActiveBtn(btnContainer, readingStatus);
+  colorActiveBtn(btnContainer, isRead);
 }
 
-function colorActiveBtn(btnContainer, readingStatus) {
+function colorActiveBtn(btnContainer, isRead) {
   const activeButton = btnContainer.querySelector(".active");
-  if (readingStatus === "read") {
+  if (isRead === true) {
     activeButton.style.backgroundColor = "#90ee90";
     activeButton.style.color = "#ffffff";
-  } else if (readingStatus === "notread") {
+  } else if (isRead === false) {
     activeButton.style.backgroundColor = "#f08080";
     activeButton.style.color = "#ffffff";
   }
