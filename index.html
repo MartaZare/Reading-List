@@ -37,10 +37,10 @@
         <h3>- Abraham Lincoln</h3>
       </div>
 
-      <div id="shelf"></div>
+      <div id="bookshelfDiv"></div>
 
-      <div id="registerBook" style="display: none">
-        <div class="fullForm">
+      <div id="fullFormDivForDispay" style="display: none">
+        <div class="fullFormDiv">
           <img
             onclick="displayForm(false)"
             src="https://cdn-icons-png.flaticon.com/128/2961/2961937.png"
@@ -50,30 +50,34 @@
           <form>
             <div class="formElem">
               <p>Title:</p>
-              <input type="text" name="ftitle" id="ftitle" />
+              <input type="text" name="formTitleInput" id="formTitleInput" />
             </div>
             <div class="formElem">
               <p>Author:</p>
-              <input type="text" name="fauthor" id="fauthor" />
+              <input type="text" name="formAuthorInput" id="formAuthorInput" />
             </div>
             <div class="readingStatus">
               <div class="readingStatusElem">
-                <input type="radio" id="read" name="fstatus" value="read" />
-                <label for="read">Read this book</label>
+                <input
+                  type="radio"
+                  id="isReadInput"
+                  name="isReadInput"
+                  value="read"
+                />
+                <label for="isReadInput">Read this book</label>
               </div>
               <div class="readingStatusElem">
                 <input
                   type="radio"
-                  id="notread"
-                  name="fstatus"
+                  id="isNotReadInput"
+                  name="isNotReadInput"
                   value="notread"
                 />
-                <label for="notread">Haven't read</label>
+                <label for="isNotReadInput">Haven't read</label>
               </div>
             </div>
           </form>
-
-          <button onclick="addBook()" id="submitBtn">Submit</button>
+          <button id="submitFormBtn">Submit</button>
         </div>
       </div>
     </main>

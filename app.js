@@ -1,40 +1,47 @@
 let list = [];
 
-let currentStatus = undefined;
-const shelf = document.getElementById("shelf");
-const registerBook = document.getElementById("registerBook");
-const fauthor = document.getElementById("fauthor");
-const ftitle = document.getElementById("ftitle");
-const read = document.getElementById("read");
-const notread = document.getElementById("notread");
 const addBookBtn = document.getElementById("addBookBtn");
+const bookshelfDiv = document.getElementById("bookshelfDiv");
+const submitFormBtn = document.getElementById("submitFormBtn");
+const fullFormDivForDispay = document.getElementById("fullFormDivForDispay");
+const formAuthorInput = document.getElementById("formAuthorInput");
+const formTitleInput = document.getElementById("formTitleInput");
+const isReadInput = document.getElementById("isReadInput");
+const isNotReadInput = document.getElementById("isNotReadInput");
+
+submitFormBtn.addEventListener("click", () => addBook());
 
 function addBook() {
   displayForm(false);
   submitForm();
-  reloadForm();
+  resetFormFields();
   displayShelf();
 }
 
 function submitForm() {
-  if (
-    (read.checked === true || notread.checked === true) &&
-    fauthor.value !== "" &&
-    ftitle.value !== ""
-  ) {
-    getReadingStatus();
-    addInformationToList();
-  } else {
-    alert(
-      "To add book to the library add the author, title and choose if you've had read this book :)"
-    );
+  if (formAuthorInput.value === "") {
+    alert("To add book to the library add the author.");
+    return;
   }
+
+  if (formTitleInput.value === "") {
+    alert("To add book to the library add the author.");
+    return;
+  }
+
+  if (!isReadInput.checked && !isNotReadInput.checked) {
+    alert("To add book to the library mark if you've read the book.");
+    return;
+  }
+
+  addInformationToList();
 }
 
-function reloadForm() {
-  ftitle.value = "";
-  fauthor.value = "";
-  resetReadingStatus();
+function resetFormFields() {
+  formTitleInput.value = "";
+  formAuthorInput.value = "";
+  isReadInput.checked = false;
+  isNotReadInput.checked = false;
 }
 
 function displayShelf() {
@@ -42,73 +49,74 @@ function displayShelf() {
   loadShelf();
 }
 
-function displayForm(e) {
-  if (e == true) {
-    registerBook.style.display = "block";
+function displayForm(isDisplayed) {
+  if (isDisplayed == true) {
+    fullFormDivForDispay.style.display = "block";
     addBookBtn.style.display = "none";
-  } else if (e == false) {
-    registerBook.style.display = "none";
+  } else if (isDisplayed == false) {
+    fullFormDivForDispay.style.display = "none";
     addBookBtn.style.display = "block";
   }
 }
 
-function Book(title, author, status) {
-  (this.title = title), (this.author = author), (this.status = status);
+function Book(title, author, isReadProperty) {
+  (this.title = title),
+    (this.author = author),
+    (this.isReadProperty = isReadProperty);
 }
 
 function getReadingStatus() {
-  if (read.checked) {
-    currentStatus = read.value;
-  } else if (notread.checked) {
-    currentStatus = notread.value;
+  if (isReadInput.checked) {
+    return isReadInput.value;
+  } else if (isNotReadInput.checked) {
+    return isNotReadInput.value;
   }
 }
 
 function addInformationToList() {
-  list.push(new Book(ftitle.value, fauthor.value, currentStatus));
-}
-
-function resetReadingStatus() {
-  read.checked = false;
-  notread.checked = false;
+  list.push(
+    new Book(formTitleInput.value, formAuthorInput.value, getReadingStatus())
+  );
 }
 
 function clearShelf() {
-  shelf.innerHTML = "";
+  bookshelfDiv.innerHTML = "";
 }
 
 function loadShelf() {
   for (let i = 0; i < list.length; i++) {
-    const oneBook = document.createElement("div");
-    oneBook.classList.add("bookCard");
-    oneBook.classList.add(i);
-    shelf.appendChild(oneBook);
+    const book = list[i];
+
+    const bookCard = document.createElement("div");
+    bookCard.classList.add("bookCard");
+    bookCard.classList.add(i);
+    bookshelfDiv.appendChild(bookCard);
 
     const bookCardTitleAuthor = document.createElement("div");
     bookCardTitleAuthor.classList.add("bookCardTitleAuthor");
-    oneBook.appendChild(bookCardTitleAuthor);
+    bookCard.appendChild(bookCardTitleAuthor);
 
     const bookCardBtns = document.createElement("div");
     bookCardBtns.classList.add("bookCardBtns");
     bookCardBtns.classList.add(i);
-    oneBook.appendChild(bookCardBtns);
+    bookCard.appendChild(bookCardBtns);
 
     const title = document.createElement("div");
     title.classList.add("title");
-    title.innerHTML += list[i].title;
+    title.innerHTML += book.title;
     bookCardTitleAuthor.appendChild(title);
 
     const author = document.createElement("div");
     author.classList.add("author");
-    author.innerHTML += list[i].author;
+    author.innerHTML += book.author;
     bookCardTitleAuthor.appendChild(author);
 
-    readingStatusBtn(bookCardBtns, list[i].status);
-    removeBookBtn(bookCardBtns);
+    createReadingStatusBtn(bookCardBtns, book.isReadProperty);
+    createRemoveBookBtn(bookCardBtns);
   }
 }
 
-function readingStatusBtn(btnContainer, readingStatus) {
+function createReadingStatusBtn(btnContainer, readingStatus) {
   const readBtn = document.createElement("button");
   readBtn.classList.add("readBtn");
   readBtn.innerHTML = "Read";
@@ -140,7 +148,8 @@ function readingStatusBtn(btnContainer, readingStatus) {
 
 function activateBtn(statusBtn, btnContainer, readingStatus) {
   deactivateAllCardBtn(btnContainer);
-  list[parseInt(btnContainer.classList[1])].status = readingStatus;
+  const bookIndex = parseInt(btnContainer.classList[1]);
+  list[bookIndex].isReadProperty = readingStatus;
   statusBtn.classList.add("active");
   colorActiveBtn(btnContainer, readingStatus);
 }
@@ -164,12 +173,12 @@ function deactivateAllCardBtn(btnContainer) {
   });
 }
 
-function setDefaultBtnColor(e) {
-  e.style.backgroundColor = "white";
-  e.style.color = "black";
+function setDefaultBtnColor(btn) {
+  btn.style.backgroundColor = "#ffffff";
+  btn.style.color = "#000000";
 }
 
-function removeBookBtn(btnContainer) {
+function createRemoveBookBtn(btnContainer) {
   const remove = document.createElement("button");
   remove.classList.add("remove");
   remove.innerHTML = "Remove";
