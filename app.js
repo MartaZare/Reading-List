@@ -174,7 +174,7 @@ function createRemoveBookBtn(btnContainer) {
   remove.innerHTML = "Remove";
   btnContainer.appendChild(remove);
   remove.addEventListener("click", function (e) {
-    list.splice(e.target.btnContainer.classList.item(1), 1);
+    list.splice(e.target.classList.item(1), 1);
     displayShelf();
   });
 }
